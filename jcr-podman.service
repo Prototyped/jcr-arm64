@@ -1,0 +1,17 @@
+[Unit]
+Description=JFrog Artifactory JCR
+Wants=network-online.target
+After=network-online.target
+RequiresMountsFor=/tmp/podman-run-1002/containers
+
+[Service]
+Restart=always
+TimeoutStopSec=240
+ExecStartPre=/bin/bash -c "podman container inspect jcr 2> /dev/null || exec podman run -d --name=jcr --oom-score-adj=200 --hostname ulysses-jcr -p 8081:8081 -p 8082:8082 -v /var/opt/jfrog/artifactory.docker:/var/opt/jfrog/artifactory:rw gurdasani.com/jcr/jcr:latest"
+ExecStart=/usr/bin/podman start jcr
+ExecStop=/usr/bin/podman stop -t 180 jcr
+ExecStopPost=/usr/bin/podman stop -t 180 jcr
+Type=forking
+
+[Install]
+WantedBy=default.target
