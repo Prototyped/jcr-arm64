@@ -1,4 +1,4 @@
-FROM --platform=linux/arm64/v8 docker.io/arm64v8/debian:testing-slim AS testing
+FROM --platform=linux/arm64/v8 docker.io/arm64v8/debian:stable-slim AS stable
 
 COPY artifactory.gpg /usr/share/keyrings/artifactory.gpg
 COPY elasticsearch-keyring.gpg /usr/share/keyrings/elasticsearch-keyring.gpg
