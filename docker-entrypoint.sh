@@ -11,4 +11,4 @@ then
 fi
 sudo -u artifactory /usr/local/bin/load-secrets.sh
 ex '+g/^::1/d' -cwq /etc/hosts
-exec /etc/init.d/artifactory wait
+exec /opt/jfrog/artifactory/app/bin/artifactoryManage.sh wait

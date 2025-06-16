@@ -5,13 +5,6 @@ set -euo pipefail
 OCI_CLI_AUTH=instance_principal
 export OCI_CLI_AUTH
 
-# Stage Oracle database wallet.
-/opt/oci/bin/oci os object get --bucket-name goprivacy-infra --name Wallet_artifactory.zip --file /tmp/Wallet_artifactory.zip
-unzip -o -d /opt/instantclient_19_10/network/admin /tmp/Wallet_artifactory.zip
-shred /tmp/Wallet_artifactory.zip
-rm -f /tmp/Wallet_artifactory.zip
-cp -lrf /opt/instantclient_{19_10,21_8_amd64}/network/admin/.
-
 # Substitute database password in the system.yaml.
 base64_artifactory_password="$(/opt/oci/bin/oci secrets secret-bundle get --secret-id ocid1.vaultsecret.oc1.uk-london-1.amaaaaaavtd7ioya3vz7i2hojuvfdx4yhzl5gdlltea6qwrnkqnie7gmhoda --raw-output --query 'data."secret-bundle-content".content')"
 artifactory_password="$(echo -n $base64_artifactory_password | base64 -d)"
